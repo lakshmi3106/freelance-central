@@ -1,0 +1,25 @@
+<mat-card-content>
+  <img src="../../assets/gConnect.png" (click)="connectWithGoogle()" />
+<div class="form">
+    <form [formGroup]="loginForm" (ngSubmit)="submit()">
+        
+          <mat-form-field>
+            <input type="text" matInput placeholder="Email" formControlName="email" required>
+            <mat-error *ngIf="loginForm.controls['email'].invalid">{{getErrorMessage()}}</mat-error>
+          </mat-form-field>
+       
+          <mat-form-field>
+            <input type="password" matInput placeholder="Password" formControlName="pwd" required>
+            <mat-error *ngIf="loginForm.controls['pwd'].invalid">{{getErrorMessage()}}</mat-error>
+          </mat-form-field>
+       
+<mat-error *ngIf="errorMessage">{{errorMessage}}</mat-error>
+       
+
+        <div class="button">
+          <button type="submit" mat-button>Login</button>
+        </div>
+
+      </form>
+  </div>
+</mat-card-content>

@@ -1,0 +1,6 @@
+
+    <img  width="100px" height="100px" [src]="userDetails?.providerData[0]?.photoURL" />
+    
+    <h1>Welcome {{(userDetails?.displayName)?userDetails.displayName: userDetails?.email}}</h1>
+
+    <button (click)="logOut()">Logout</button>
