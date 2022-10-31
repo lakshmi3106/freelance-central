@@ -9,5 +9,9 @@ import { invoke } from "@tauri-apps/api/tauri";
   
 })
 export class AppComponent {
+
+  constructor(){
+
+  }
   
 }

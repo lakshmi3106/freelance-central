@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 //import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
-import { getAuth, signInWithEmailAndPassword,signInWithPopup,signInWithRedirect, GoogleAuthProvider, getRedirectResult, signOut } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, GoogleAuthProvider, getRedirectResult, signOut, createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 // import { SessionStorage } from 'ngx-store';
 // import { UserModel } from '../../model';
 import { DatePipe } from '@angular/common';
@@ -11,97 +11,97 @@ import firebase from 'firebase/compat/app';
 import UserCredential = firebase.auth.UserCredential;
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-
-
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  // @SessionStorage() user: UserModel | undefined;
-  // @SessionStorage() isAuthenticated = false;
-  // @SessionStorage() device = 'Web Admin';
-  loginUrl = '/login';
-  userDetails = new Subject<any>()
-  constructor(private router:Router) {
 
+  loginUrl = '/login';
+  userDetails = new Subject<any>();
+  auth;
+  constructor(private router: Router, private db: AngularFirestore) {
+    this.auth = getAuth();
+   
   }
 
-  // public updateUser(user: User, userName?: string): Promise<void> {
-  //   return this.afs.doc(`users/${user.uid}`).set({
-  //     uid: user.uid,
-  //     displayName: userName || user.displayName,
-  //     email: user.email,
-  //     photoURL: user.photoURL,
-  //     registerDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-  //     lastDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-  //     balance: 0
-  //   })
-  //     ;
-  // }
 
   signWithEmail(email: string, password: string): Promise<any> {
-    const auth = getAuth();
-    auth.languageCode = 'it';
-    return signInWithEmailAndPassword(auth, email, password);
-    
-    //return createUserWithEmailAndPassword(this.auth, email, password)
-  
+
+    this.auth.languageCode = 'it';
+    return signInWithEmailAndPassword(this.auth, email, password);
+
+
+
   }
 
-  // signUp(email: string, password: string, userName: string): Promise<UserCredential> {
-  //   return this.afAuth.createUserWithEmailAndPassword(email, password);
-  // }
+  signUp(email: string, password: string): Promise<any> {
+    const auth = getAuth();
+    return createUserWithEmailAndPassword(auth, email, password);
+  }
+  getUserStatus() {
 
-  // signOut(): Promise<void> {
-  //   return this.afAuth.signOut();
-  // }
+    onAuthStateChanged(this.auth, (user) => {
+      if (user) {
+        this.userDetails.next(user);
+        this.router.navigateByUrl('dashboard')
 
-googleLogin(){
+        // localStorage.setItem('user',JSON.stringify(user));
+        // // User is signed in, see docs for a list of available properties
+        // // https://firebase.google.com/docs/reference/js/firebase.User
+        // const uid = user.uid;
+        // ...
+      } else {
+        this.router.navigateByUrl('login')
+      };
+    })
+  
+}
+  googleLogin() {
 
-const provider = new GoogleAuthProvider();
-provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-  provider.setCustomParameters({
-    'login_hint': 'lakshmi3106@gmail.com'
-  });
-  signInWithPopup(getAuth(), provider)
-  .then((result:any) => {
-    // This gives you a Google Access Token. You can use it to access the Google API.
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    const token = credential?.accessToken;
-    // The signed-in user info.
-    const user = result?.user;
+    const provider = new GoogleAuthProvider();
+    provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
-    localStorage.setItem('user',JSON.stringify(user));
-    this.router.navigateByUrl('dashboard').catch(err => {
-      console.log(err);
+    signInWithPopup(this.auth, provider)
+      .then((result: any) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+        // The signed-in user info.
+        const user = result?.user;
+
+        localStorage.setItem('user', JSON.stringify(user));
+        this.router.navigateByUrl('dashboard').catch(err => {
+          console.log(err);
+        });
+
+        // ...
+      }).catch((error: any) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        console.log(error)
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
+  }
+
+  logOut(): void {
+
+    signOut(getAuth()).then(() => {
+      localStorage.removeItem('user');
+      this.router.navigateByUrl('login')
+      // Sign-out successful.
+    }).catch((error) => {
+      // An error happened.
     });
 
-    // ...
-  }).catch((error:any) => {
-    // Handle Errors here.
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // The email of the user's account used.
-    const email = error.customData.email;
-    console.log(error)
-    // The AuthCredential type that was used.
-    const credential = GoogleAuthProvider.credentialFromError(error);
-    // ...
-  });
-}
 
-logOut(){
+  }
 
-  signOut(getAuth()).then(() => {
-    localStorage.removeItem('user');
-    this.router.navigateByUrl('login')
-    // Sign-out successful.
-  }).catch((error) => {
-    // An error happened.
-  });
-  
-  
-}
 
 
 

@@ -1,25 +1,31 @@
-<mat-card-content>
-  <img src="../../assets/gConnect.png" (click)="connectWithGoogle()" />
+<section class="main-conatiner">
+  <h2>Welcome Back!</h2>
+  
 <div class="form">
+  <div class="button"><button mat-flat-button color="accent" (click)="connectWithGoogle()" >Continue with Google</button></div>
+  <p style="text-align:center">OR</p>
     <form [formGroup]="loginForm" (ngSubmit)="submit()">
-        
+     
           <mat-form-field>
             <input type="text" matInput placeholder="Email" formControlName="email" required>
-            <mat-error *ngIf="loginForm.controls['email'].invalid">{{getErrorMessage()}}</mat-error>
+            <mat-error *ngIf="loginForm.controls['email'].hasError('required')">Email is required</mat-error>
+             <mat-error *ngIf="loginForm.controls['email'].hasError('email')">Email must be valid</mat-error>
           </mat-form-field>
        
           <mat-form-field>
             <input type="password" matInput placeholder="Password" formControlName="pwd" required>
-            <mat-error *ngIf="loginForm.controls['pwd'].invalid">{{getErrorMessage()}}</mat-error>
+            <mat-error *ngIf="loginForm.controls['pwd'].hasError('required')">Password is required</mat-error>
+            <mat-error *ngIf="loginForm.controls['pwd'].hasError('minlength')">Password must be minimum of 6 characters</mat-error>
           </mat-form-field>
        
-<mat-error *ngIf="errorMessage">{{errorMessage}}</mat-error>
+          <mat-error *ngIf="errorMessage">{{errorMessage}}</mat-error>
        
 
         <div class="button">
-          <button type="submit" mat-button>Login</button>
+          <button type="submit" mat-flat-button color="primary">Sign In</button>
         </div>
 
       </form>
   </div>
-</mat-card-content>
+  <p style="text-align:center">Don't have an account? <a routerLink="/register">Register</a></p>
+</section>

@@ -1,0 +1,40 @@
+:host {
+    display: flex;
+    justify-content: center;
+    
+    flex-direction: column;
+    align-items: center;
+   
+  }
+
+  .mat-form-field {
+    width: 100%;
+    min-width: 300px;
+  }
+
+  mat-dialog-title,
+  mat-dialog-content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+   
+  }
+
+  .error {
+    padding: 16px;
+    width: 300px;
+    color: white;
+    background-color: red;
+  }
+
+  .button {
+    display: flex;
+    justify-content: center;
+  }
+  .mat-flat-button{
+    border-radius: 50px;
+    width:70%;
+    margin:20px;
+    padding:10px;
+  }

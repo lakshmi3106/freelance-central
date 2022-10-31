@@ -1,3 +1,60 @@
 
+.cdk-overlay-pane{
+    width:50vw;
+}
+.form{
+    width:50%;
+    
+}
+.mat-cell{
+    padding: 0 1rem !important;
+    font-size: 0.8em;;
+  }
 
+  .mat-form-field {
+    width: 100%;
+    min-width: 300px;
+  }
 
+ 
+  .error {
+    padding: 16px;
+    width: 300px;
+    color: white;
+    background-color: red;
+  }
+
+  .button {
+    display: flex;
+    justify-content: center;
+  }
+  .mat-flat-button{
+    border-radius: 50px !important;
+    width:70%;
+    margin:20px;
+    padding:10px;
+  }
+  .mat-raised-button{
+    padding:10px;
+  }
+
+  section.main-conatiner {
+    display: flex;
+    justify-content: center;
+    width:60%;
+    margin:auto;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;;
+  }
+
+  @media screen and (max-width:400px) {
+    .form{
+        width:80%;
+    }
+    
+    .main-conatiner{
+      width:100% !important;
+    }
+
+  }

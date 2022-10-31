@@ -1,0 +1,27 @@
+<section class="main-conatiner"><h2>User Registration!</h2>
+<div class="form">
+  <form [formGroup]="registerForm" (ngSubmit)="submit()">
+
+    <mat-form-field>
+      <input type="text" matInput placeholder="Email" formControlName="email" required>
+      <mat-error *ngIf="registerForm.controls['email'].hasError('required')">Email is required</mat-error>
+      <mat-error *ngIf="registerForm.controls['email'].hasError('email')">Email must be valid</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input type="password" matInput placeholder="Password" formControlName="pwd" required>
+      <mat-error *ngIf="registerForm.controls['pwd'].hasError('required')">Password is required</mat-error>
+            <mat-error *ngIf="registerForm.controls['pwd'].hasError('minlength')">Password must be minimum of 6 characters</mat-error>
+    </mat-form-field>
+
+    <mat-error *ngIf="errorMessage">{{errorMessage}}</mat-error>
+
+
+    <div class="button">
+      <button type="submit" mat-flat-button color="primary">Register</button>
+    </div>
+
+  </form>
+</div>
+<p style="text-align:center">Already have an account? <a routerLink="/login">Signin</a></p>
+</section>

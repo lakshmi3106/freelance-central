@@ -1,6 +1,71 @@
+<header *ngIf="userDetails">
+    <img src="assets/logo.png" height="32px">
+    <p style="display:flex;"> 
+    <ng-container *ngIf="userDetails?.providerData[0]?.photoURL">
+    <img width="50px" height="50px" src="{{userDetails?.providerData[0]?.photoURL}}" /></ng-container>
+        <label>Welcome <br/>
+     {{(userDetails?.displayName)?userDetails.displayName: userDetails?.email}}<br/>
+     <button mat-button color="accent"  (click)="logOut()">Logout</button></label>
+    </p>
 
-    <img  width="100px" height="100px" [src]="userDetails?.providerData[0]?.photoURL" />
-    
-    <h1>Welcome {{(userDetails?.displayName)?userDetails.displayName: userDetails?.email}}</h1>
+   
+</header>
+<section>
+    <div class="flex-row">
+  <button mat-button flex="1" (click)="openDialog({},'add')">Add User</button>
+    <mat-form-field appearance="standard" style="width:20%;float: right;">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Search By Email/Name" #input>
+      </mat-form-field>
+    </div>
+<section class="example-container mat-elevation-z8" tabindex="0">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+        <!-- <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>#</th>
+            <td mat-cell *matCellDef="let element">
+                <mat-checkbox (change)="updateAllComplete(element.id)">
 
-    <button (click)="logOut()">Logout</button>
+                </mat-checkbox>
+            </td>
+        </ng-container> -->
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let element">{{element.name}}</td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>Email</th>
+            <td mat-cell *matCellDef="let element">{{element.email}}</td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="phoneNo">
+            <th mat-header-cell *matHeaderCellDef>Phone Number</th>
+            <td mat-cell *matCellDef="let element">{{element.phoneNo}}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="address">
+            <th mat-header-cell *matHeaderCellDef>Address</th>
+            <td mat-cell *matCellDef="let element">{{element.address}}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let element">
+                <mat-icon (click)="delete(element)">delete</mat-icon>
+                <mat-icon (click)="openDialog(element,'edit')">edit</mat-icon>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</section>
+    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                 showFirstLastButtons 
+                 aria-label="Select page of CONTRACTORS">
+  </mat-paginator> -->
+
+    </section>

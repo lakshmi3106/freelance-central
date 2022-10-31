@@ -1,0 +1,35 @@
+table {
+    width: 80%;
+    margin:20px auto;
+   
+  }
+  .flex-row{
+    display: flex;
+  }
+  
+  .mat-icon{
+   
+    cursor: pointer;
+  }
+  header{
+    display: flex;
+    padding:1rem 0;
+    justify-content: space-between;
+    background-color: #002458;
+    color:#fff;
+    align-items: center;
+    width: 100%;
+  }
+  /* button{
+    margin-right:30px;
+  } */
+  .example-container {
+    width:100%;
+    overflow: auto;
+  }
+
+  @media screen and (max-width: 600px)  {
+    table{
+      width:100%;
+    }
+  }

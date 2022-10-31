@@ -1,0 +1,38 @@
+<h2 mat-dialog-title *ngIf="data.action == 'edit'">Edit User</h2>
+<h2 mat-dialog-title *ngIf="data.action == 'add'">Add User</h2>
+<mat-dialog-content class="mat-typography">
+  
+      <div class="form">
+          <form [formGroup]="userForm" (ngSubmit)="submit()">
+            <mat-form-field>
+                <input type="text" matInput placeholder="Name" formControlName="name" required>
+                <mat-error *ngIf="userForm.controls['name'].hasError('required')">username is required</mat-error>
+                <mat-error *ngIf="userForm.controls['name'].hasError('minlength')">username must be minimum of 6 characters</mat-error>
+              </mat-form-field>
+              
+                <mat-form-field>
+                  <input type="text" matInput placeholder="Email" formControlName="email" required>
+                  <mat-error *ngIf="userForm.controls['email'].hasError('required')">email is required</mat-error>
+                  <mat-error *ngIf="userForm.controls['email'].hasError('email')">email must be valid</mat-error>
+                </mat-form-field>
+             
+                <mat-form-field>
+                  <input type="tel" matInput placeholder="phoneNo" formControlName="phoneNo" required>
+                  <mat-error *ngIf="userForm.controls['phoneNo'].invalid">Phone Number is required</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <textarea type="text" matInput placeholder="Address" formControlName="address" ></textarea>
+                    <mat-error *ngIf="userForm.controls['address'].invalid">{{getErrorMessage()}}</mat-error>
+                  </mat-form-field>
+                
+              <mat-dialog-actions align="center">
+                
+                <button *ngIf="data.action == 'edit'" type="submit" color="primary" mat-flat-button [mat-dialog-close]="true" cdkFocusInitial>Edit User</button>
+                <button  *ngIf="data.action == 'add'" type="submit" color="primary" mat-flat-button [mat-dialog-close]="true" cdkFocusInitial>Add User</button>
+                <button mat-flat-button color="accent" mat-dialog-close>Cancel</button>
+              </mat-dialog-actions>
+            </form>
+        </div>
+      
+</mat-dialog-content>
+
